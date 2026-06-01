@@ -15,14 +15,12 @@ require('http').createServer((req, res) => {
       const { apiKey, payload } = JSON.parse(body);
       const data = JSON.stringify(payload);
       const options = {
-        hostname: 'api.anthropic.com',
-        path: '/v1/messages',
+        hostname: 'generativelanguage.googleapis.com',
+        path: `/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(data),
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01'
+          'Content-Length': Buffer.byteLength(data)
         }
       };
       const preq = https.request(options, pres => {
@@ -41,4 +39,3 @@ require('http').createServer((req, res) => {
     }
   });
 }).listen(process.env.PORT || 3000, () => console.log('Proxy running'));
- 
